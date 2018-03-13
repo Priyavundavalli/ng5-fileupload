@@ -1,0 +1,27 @@
+<div class="dpb-fileupload" dpbDropZone>
+	<!-- Begin: placeholders -->
+		<div class="dpb-placeholder dpb-placeholder-normal" *ngIf="!hasFiles()">
+			Arraste e solte os arquivos aqui
+			<div class="dpb-placeholder dpb-sub">
+				ou clique aqui para selecionar os arquivos.
+			</div>
+		</div>
+		<div class="dpb-placeholder dpb-placeholder-onDragOver" *ngIf="!hasFiles()">
+			Solte os arquivos aqui.
+		</div>
+	<!-- End: placeholders -->
+
+	<!-- Begin: Content Files -->
+	<ul class="dpb-list-files" *ngIf="hasFiles()">
+		<li *ngFor="let item of getFiles(); let $index = index;">
+			<div class="dpb-file-thumb"></div>
+			<div class="dpb-file-name"></div>
+			<div class="dpb-file-size"></div>
+			{{item.name|truncate:10:true}} /
+			{{item.size}}
+			<a (click)="deleteFile($index)" class="dpb-delete-button">Apagar</a>
+		</li>
+	</ul>
+	<!-- End: Content Files -->
+	<input type="file" multiple class="dpb-input" dpbChangeZone title="Clique para selecionar um arquivo" />
+</div>

@@ -1,0 +1,57 @@
+.dpb-fileupload {
+	width: 100%;
+	min-height: 200px;
+	background-color: #F3F3F3;
+	position: relative;
+	font-family: Arial, Helvetica, sans-serif;
+
+	> .dpb-placeholder {
+		position: absolute;
+		width: 100%;
+		top: 0;
+		left: 0;
+		font-size: 24px;
+		color: #BBB;
+		top: 35%;
+		z-index: 1;
+		> .dpb-placeholder.dpb-sub {
+			font-size: 16px;
+		}
+		&.dpb-placeholder-onDragOver {
+			top: 40%;
+			display: none;
+		}
+	}
+	> .dpb-input {
+		width: 100%;
+		height: 100%;
+		position: absolute;
+		cursor: pointer;
+		z-index: 2;
+		top: 0;
+		left: 0;
+		opacity: 0;
+		outline: none;
+	}
+	> .dpb-list-files {
+		position: relative;
+		z-index: 3;
+		padding: 0px;
+		li {
+			display: inline-block;
+			.dpb-delete-button {
+				cursor: pointer;
+			}
+		}
+	}
+	&.dpb-dpz-onDragOver {
+		> .dpb-placeholder {
+			&.dpb-placeholder-normal {
+				display: none;
+			}
+			&.dpb-placeholder-onDragOver {
+				display: block;
+			}
+		}
+	}
+}
