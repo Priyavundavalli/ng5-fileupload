@@ -1,9 +1,10 @@
-import { Component, ViewEncapsulation, ViewChild, OnInit } from '@angular/core';
+import { Component, ViewEncapsulation, ViewChild, OnInit, Sanitizer } from '@angular/core';
 import { FileUploadComponent } from '../../src/components/fileUpload.component';
 import { FileUploadService } from '../../src/services/fileupload.service';
 import { Subscription } from 'rxjs/Subscription';
 import { HttpEventType, HttpParams } from '@angular/common/http';
 import { DpbResponse } from '../../src/interfaces/dpbResponse.interface';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 @Component({
 	selector: 'app-root',
@@ -24,9 +25,17 @@ export class AppComponent implements OnInit {
 	}
 
 	ngOnInit() {
-		this._fileUp.setOptions({classes: {
-			buttonAdd: 'teste'
-		}});
+
+		this._fileUp.setOptions({
+			classes: {
+				buttonAdd: 'ui right labeled green icon tiny button',
+				buttonRemoveAll: 'ui button red tiny'
+			},
+			texts: {
+				buttonAdd: 'Adicionar <i class="ui icon plus"></i>'
+			}
+		});
+
 		this._filSer.onValidate$.subscribe((validation) => {
 			console.log(validation.validation.tags);
 			console.log(validation.individualValidation.info);

@@ -25,7 +25,9 @@
 				<div class="dpb-item-name">{{item.name|truncate:100:false}}</div>
 				<div class="dpb-item-size">{{item.size}}</div>
 				<div class="dpb-item-options">
-					<a (click)="deleteFile($index)" class="dpb-delete-button {{getOptions().classes.buttonRemove}}">{{getOptions().texts.buttonRemove}}</a>
+					<a (click)="deleteFile($index)" class="dpb-delete-button {{getOptions().classes.buttonRemove}}">
+						<span [innerHTML]="getOptions().texts.buttonRemove | safe: 'html'"></span>
+					</a>
 				</div>
 			</div>
 		</div>
@@ -35,8 +37,10 @@
 </div>
 <div class="dpb-fileupload-actions {{getOptions().classes.actionContent}}">
 	<button class="dpb-action-add {{getOptions().classes.buttonAdd}}">
-		{{getOptions().texts.buttonAdd}}
+		<span [innerHTML]="getOptions().texts.buttonAdd | safe: 'html'"></span>
 		<input type="file" multiple class="dpb-fileupload-input" dpbChangeZone title="{{getOptions().texts.inputButtonAddTitle}}" />
 	</button>
-	<button class="dpb-action-remove {{getOptions().classes.buttonRemoveAll}}" (click)="deleteAllFiles()">{{getOptions().texts.buttonRemoveAll}}</button>
+	<button class="dpb-action-remove {{getOptions().classes.buttonRemoveAll}}" (click)="deleteAllFiles()">
+		<span [innerHTML]="getOptions().texts.buttonRemoveAll | safe: 'html'"></span>
+	</button>
 </div>

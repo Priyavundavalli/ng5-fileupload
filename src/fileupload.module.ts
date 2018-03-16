@@ -6,11 +6,18 @@ import { DpbChangeZoneDirective } from './directives/changeZone.directive';
 import { TruncatePipe } from './pipe/truncate.pipe';
 import { FileUploadService } from './services/fileupload.service';
 import { HttpClientModule } from '@angular/common/http';
+import { SafePipe } from './pipe/safe.pipe';
 
 @NgModule({
 	imports: [CommonModule, HttpClientModule],
 	exports: [FileUploadComponent, DpbChangeZoneDirective],
-	declarations: [FileUploadComponent, DpbDropZoneDirective, DpbChangeZoneDirective, TruncatePipe],
+	declarations: [
+		FileUploadComponent,
+		DpbDropZoneDirective,
+		DpbChangeZoneDirective,
+		TruncatePipe,
+		SafePipe
+	],
 	providers: [FileUploadService]
 })
 export class FileUploadModule {}
