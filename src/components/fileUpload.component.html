@@ -1,27 +1,42 @@
-<div class="dpb-fileupload" dpbDropZone>
+<div class="dpb-fileupload {{getOptions().classes.fileUpload}}" dpbDropZone [ngClass]="{'dpb-has-files': hasFiles()}">
 	<!-- Begin: placeholders -->
-		<div class="dpb-placeholder dpb-placeholder-normal" *ngIf="!hasFiles()">
-			Arraste e solte os arquivos aqui
-			<div class="dpb-placeholder dpb-sub">
-				ou clique aqui para selecionar os arquivos.
+		<div class="dpb-placeholder dpb-placeholder-normal {{getOptions().classes.placeholder}}" *ngIf="!hasFiles()">
+			{{getOptions().texts.placeholder}}
+			<div class="dpb-placeholder dpb-placeholder-sub {{getOptions().classes.placeholderSub}}">
+				{{getOptions().texts.placeholderSub}}
 			</div>
 		</div>
-		<div class="dpb-placeholder dpb-placeholder-onDragOver" *ngIf="!hasFiles()">
-			Solte os arquivos aqui.
+		<div class="dpb-placeholder dpb-placeholder-onDragOver {{getOptions().classes.placeholderOnDragOver}}" *ngIf="!hasFiles()">
+			{{getOptions().texts.placeholderOnDragOver}}
 		</div>
 	<!-- End: placeholders -->
 
 	<!-- Begin: Content Files -->
-	<ul class="dpb-list-files" *ngIf="hasFiles()">
-		<li *ngFor="let item of getFiles(); let $index = index;">
-			<div class="dpb-file-thumb"></div>
-			<div class="dpb-file-name"></div>
-			<div class="dpb-file-size"></div>
-			{{item.name|truncate:10:true}} /
-			{{item.size}}
-			<a (click)="deleteFile($index)" class="dpb-delete-button">Apagar</a>
-		</li>
-	</ul>
+	<div class="dpb-list-files {{getOptions().classes.fileUploadList}}" *ngIf="hasFiles()">
+		<div class="dpb-header-bar {{getOptions().classes.fileUploadListHeader}}">
+			<div class="dpb-header-icon"></div>
+			<div class="dpb-header-name">{{getOptions().texts.columnName}}</div>
+			<div class="dpb-header-size">{{getOptions().texts.columnSize}}</div>
+			<div class="dpb-header-options"></div>
+		</div>
+		<div class="dpb-list-body {{getOptions().classes.fileUploadListBody}}">
+			<div *ngFor="let item of getFiles(); let $index = index;" class="dpb-item {{getOptions().classes.fileUploadListItem}}">
+				<div class="dpb-item-icon"></div>
+				<div class="dpb-item-name">{{item.name|truncate:100:false}}</div>
+				<div class="dpb-item-size">{{item.size}}</div>
+				<div class="dpb-item-options">
+					<a (click)="deleteFile($index)" class="dpb-delete-button {{getOptions().classes.buttonRemove}}">{{getOptions().texts.buttonRemove}}</a>
+				</div>
+			</div>
+		</div>
+	</div>
 	<!-- End: Content Files -->
-	<input type="file" multiple class="dpb-input" dpbChangeZone title="Clique para selecionar um arquivo" />
+	<input type="file" multiple class="dpb-fileupload-input" dpbChangeZone title="{{getOptions().texts.inputFileTitle}}" />
+</div>
+<div class="dpb-fileupload-actions {{getOptions().classes.actionContent}}">
+	<button class="dpb-action-add {{getOptions().classes.buttonAdd}}">
+		{{getOptions().texts.buttonAdd}}
+		<input type="file" multiple class="dpb-fileupload-input" dpbChangeZone title="{{getOptions().texts.inputButtonAddTitle}}" />
+	</button>
+	<button class="dpb-action-remove {{getOptions().classes.buttonRemoveAll}}" (click)="deleteAllFiles()">{{getOptions().texts.buttonRemoveAll}}</button>
 </div>

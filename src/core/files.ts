@@ -47,4 +47,14 @@ export class DpbFilesCore {
 		size = Math.round(size);
 		return size.toString() + sizeType;
 	}
+
+	public static parseToFileArray(files: Array<DpbFile>): Array<File> {
+		const fileArray: Array<File> = new Array();
+
+		files.forEach((f, index) => {
+			fileArray.push(f.file);
+		});
+
+		return fileArray;
+	}
 }

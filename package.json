@@ -1,12 +1,12 @@
 {
   "name": "ng5-fileupload",
-  "description": "Angular 5 file upload",
+  "description": "Angular 5 file upload.",
   "author": {
     "name": "Marcel Rafael",
     "email": "marcelo.rafael.feil@gmail.com",
     "url": "https://www.linkedin.com/in/marcelorafaelfeil/"
   },
-  "version": "0.0.1",
+  "version": "1.0.0",
   "license": "MIT",
   "main": "src/index.ts",
   "scripts": {

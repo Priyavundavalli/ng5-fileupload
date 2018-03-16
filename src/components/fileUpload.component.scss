@@ -1,9 +1,13 @@
 .dpb-fileupload {
 	width: 100%;
-	min-height: 200px;
-	background-color: #F3F3F3;
 	position: relative;
 	font-family: Arial, Helvetica, sans-serif;
+	border: 1px solid #F1F1F1;
+	min-height: 200px;
+
+	&.dpb-has-files {
+		min-height: auto;
+	}
 
 	> .dpb-placeholder {
 		position: absolute;
@@ -14,7 +18,7 @@
 		color: #BBB;
 		top: 35%;
 		z-index: 1;
-		> .dpb-placeholder.dpb-sub {
+		> .dpb-placeholder.dpb-placeholder-sub {
 			font-size: 16px;
 		}
 		&.dpb-placeholder-onDragOver {
@@ -22,25 +26,52 @@
 			display: none;
 		}
 	}
-	> .dpb-input {
-		width: 100%;
-		height: 100%;
-		position: absolute;
-		cursor: pointer;
-		z-index: 2;
-		top: 0;
-		left: 0;
-		opacity: 0;
-		outline: none;
-	}
 	> .dpb-list-files {
 		position: relative;
 		z-index: 3;
 		padding: 0px;
-		li {
-			display: inline-block;
-			.dpb-delete-button {
-				cursor: pointer;
+		margin: 0px;
+		text-align: left;
+		.dpb-header-bar {
+			width: 100%;
+			display: flex;
+			flex-direction: row;
+			font-size: 14px;
+			padding: 5px 0;
+			border-bottom: 1px solid #F1F1F1;
+			> div {
+				flex-grow: 4;
+				&.dpb-header-name {
+					flex: 1 80%;
+				}
+				&.dpb-header-size {
+					flex: 1 10%;
+				}
+				&.dpb-header-options {
+					flex: 1 5%;
+				}
+			}
+		}
+		.dpb-item {
+			width: 100%;
+			display: flex;
+			flex-direction: row;
+			font-size: 14px;
+			padding: 5px 0;
+			> div {
+				flex-grow: 4;
+				&.dpb-item-name {
+					flex: 1 80%;
+				}
+				&.dpb-item-size {
+					flex: 1 10%;
+				}
+				&.dpb-item-options {
+					flex: 1 5%;
+					.dpb-delete-button {
+						cursor: pointer;
+					}
+				}
 			}
 		}
 	}
@@ -53,5 +84,25 @@
 				display: block;
 			}
 		}
+	}
+}
+.dpb-fileupload-input {
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	cursor: pointer;
+	z-index: 2;
+	top: 0;
+	left: 0;
+	opacity: 0;
+	outline: none;
+}
+.dpb-fileupload-actions {
+	margin-top: 15px;
+	text-align: right;
+	>.dpb-action-add {
+		position: relative;
+		overflow: hidden;
+		cursor: pointer;
 	}
 }
