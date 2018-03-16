@@ -1,4 +1,10 @@
-import { Component, ViewEncapsulation, ViewChild, OnInit, Sanitizer } from '@angular/core';
+import {
+	Component,
+	ViewEncapsulation,
+	ViewChild,
+	OnInit,
+	Sanitizer
+} from '@angular/core';
 import { FileUploadComponent } from '../../src/components/fileUpload.component';
 import { FileUploadService } from '../../src/services/fileupload.service';
 import { Subscription } from 'rxjs/Subscription';
@@ -13,30 +19,25 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 	encapsulation: ViewEncapsulation.None
 })
 export class AppComponent implements OnInit {
-
-	@ViewChild(FileUploadComponent)
-	private _fileUp: FileUploadComponent;
+	@ViewChild(FileUploadComponent) private _fileUp: FileUploadComponent;
 	private _upProg: Subscription;
 
-	constructor(
-		private _filSer: FileUploadService
-	) {
-
-	}
+	constructor(private _filSer: FileUploadService) {}
 
 	ngOnInit() {
-
 		this._fileUp.setOptions({
 			classes: {
 				buttonAdd: 'ui right labeled green icon tiny button',
-				buttonRemoveAll: 'ui button red tiny'
+				buttonRemoveAll: 'ui button red tiny',
+				iconButtonAdd: 'add-test',
+				iconButtonRemoveAll: 'remove-test'
 			},
 			texts: {
 				buttonAdd: 'Adicionar <i class="ui icon plus"></i>'
 			}
 		});
 
-		this._filSer.onValidate$.subscribe((validation) => {
+		this._filSer.onValidate$.subscribe(validation => {
 			console.log(validation.validation.tags);
 			console.log(validation.individualValidation.info);
 		});
@@ -46,12 +47,11 @@ export class AppComponent implements OnInit {
 	}
 
 	public sendFiles() {
-
-		this._filSer.onComplete$.subscribe((e) => {
+		this._filSer.onComplete$.subscribe(e => {
 			console.log('COMPLETO!');
 		});
 
-		this._filSer.onProgress$.subscribe((e) => {
+		this._filSer.onProgress$.subscribe(e => {
 			console.log(e.percent + '%');
 		});
 
@@ -60,15 +60,17 @@ export class AppComponent implements OnInit {
 		});
 
 		try {
-			this._upProg = this._filSer.uploadFile(
-				'https://hookb.in/ZB77kXQ2',
-				this._fileUp.getFiles()
-			).subscribe((response: DpbResponse) => {
-				if ( response.type === HttpEventType.UploadProgress ) {
-				} else if ( response.type === HttpEventType.Response ) {
-					console.log('E acabou!');
-				}
-			});
+			this._upProg = this._filSer
+				.uploadFile(
+					'https://hookb.in/ZB77kXQ2',
+					this._fileUp.getFiles()
+				)
+				.subscribe((response: DpbResponse) => {
+					if (response.type === HttpEventType.UploadProgress) {
+					} else if (response.type === HttpEventType.Response) {
+						console.log('E acabou!');
+					}
+				});
 		} catch (e) {
 			console.error('Não foi possível enviar o arquivo');
 			console.error(e);

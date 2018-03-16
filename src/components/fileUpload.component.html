@@ -38,11 +38,11 @@
 <div class="dpb-fileupload-actions {{getOptions().classes.actionContent}}">
 	<button class="dpb-action-add {{getOptions().classes.buttonAdd}}">
 		<span [innerHTML]="getOptions().texts.buttonAdd | safe: 'html'"></span>
-		<i class="{{getOptions}}.classes.iconButtonAdd"></i>
+		<i *ngIf="getOptions().classes.iconButtonAdd !== ''" class="{{getOptions().classes.iconButtonAdd}}"></i>
 		<input type="file" multiple class="dpb-fileupload-input" dpbChangeZone title="{{getOptions().texts.inputButtonAddTitle}}" />
 	</button>
 	<button class="dpb-action-remove {{getOptions().classes.buttonRemoveAll}}" (click)="deleteAllFiles()">
 		<span [innerHTML]="getOptions().texts.buttonRemoveAll | safe: 'html'"></span>
-		<i class="{{getOptions}}.classes.iconButtonRemoveAll"></i>
+		<i *ngIf="getOptions().classes.iconButtonRemoveAll !== ''" class="{{getOptions().classes.iconButtonRemoveAll}}"></i>
 	</button>
 </div>

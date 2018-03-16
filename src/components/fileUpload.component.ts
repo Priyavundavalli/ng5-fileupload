@@ -46,7 +46,9 @@ export class FileUploadComponent implements OnInit, AfterViewInit {
 				fileUploadListBody: '',
 				fileUploadListItem: '',
 				buttonAdd: '',
+				iconButtonAdd: '',
 				buttonRemoveAll: '',
+				iconButtonRemoveAll: '',
 				buttonRemove: '',
 				actionContent: ''
 			},

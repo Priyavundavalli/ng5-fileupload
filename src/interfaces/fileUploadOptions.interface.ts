@@ -10,7 +10,9 @@ export interface DpbFileUploadOptions {
 		fileUploadListBody?: string,
 		fileUploadListItem?: string,
 		buttonAdd?: string,
+		iconButtonAdd?: string,
 		buttonRemoveAll?: string,
+		iconButtonRemoveAll?: string,
 		buttonRemove?: string,
 		actionContent?: string
 	};
