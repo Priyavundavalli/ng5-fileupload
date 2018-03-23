@@ -118,6 +118,7 @@ export class FileUploadComponent implements OnInit, AfterViewInit {
 
 	public deleteAllFiles() {
 		this._files = new Array<DpbFile>();
+		this.onChange$.next(this._files);
 	}
 
 	public setOptions(opts: DpbFileUploadOptions) {
