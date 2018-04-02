@@ -5,7 +5,8 @@ import {
 	OnInit,
 	ElementRef,
 	QueryList,
-	AfterViewInit
+	AfterViewInit,
+	Input
 } from '@angular/core';
 import { DpbDropZoneDirective } from '../directives/dropZone.directive';
 import { Subject } from 'rxjs/Subject';
@@ -24,6 +25,9 @@ export class FileUploadComponent implements OnInit, AfterViewInit {
 	@ViewChildren(DpbChangeZoneDirective)
 	public dpbChangeDirective: QueryList<DpbChangeZoneDirective>;
 
+	@Input()
+	public disabled: boolean;
+
 	public onAddFiles$: Subject<any> = new Subject();
 	public onChange$: Subject<any> = new Subject();
 	private _files: Array<DpbFile> = new Array<DpbFile>();
@@ -33,6 +37,7 @@ export class FileUploadComponent implements OnInit, AfterViewInit {
 	private _options: DpbFileUploadOptions;
 
 	constructor(_ref: ElementRef) {
+		this.disabled = false;
 		this._ele_fileUpload = _ref.nativeElement;
 		this._options = {
 			classes: {
