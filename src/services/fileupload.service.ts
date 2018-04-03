@@ -68,8 +68,7 @@ export class FileUploadService {
 	 * @param files an array with files for upload
 	 * @param params optional parameters for send to end-point
 	 */
-	public uploadFile(url, files: Array<DpbFile>, params?: HttpParams): Observable<any> {
-		this._files = DpbFilesCore.parseToFileArray(files);
+	public uploadFile(url, params?: HttpParams): Observable<any> {
 
 		if ( !this.isValid() ) {
 			return;
@@ -108,6 +107,14 @@ export class FileUploadService {
 					() => this.showComplete()
 				)
 			);
+	}
+
+	/**
+	 * @description set files to send to end-point.
+	 * @param files array with files
+	 */
+	public setFiles(files: Array<DpbFile>): void {
+		this._files = DpbFilesCore.parseToFileArray(files);
 	}
 
 	/**
@@ -303,7 +310,7 @@ export class FileUploadService {
 	 * // returns an array with individual validation exceptions
 	 * validations().getIndividualValidations();
 	 */
-	public validations(): Object {
+	public validations(): any {
 		return {
 			hasErrors: () => {
 				const individualErrors: boolean = (this._individualValidations !== undefined && this._individualValidations.info.length > 0);

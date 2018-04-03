@@ -79,20 +79,22 @@ export class FileUploadComponent implements OnInit, AfterViewInit {
 	}
 
 	ngOnInit() {
-		this._ele = this._ele_fileUpload.querySelector('.dpb-fileupload');
+		setTimeout(() => {
+			this._ele = this._ele_fileUpload.querySelector('.dpb-fileupload');
 
-		this.dpbDropDirective.dragOver$.subscribe(e => {
-			this._ele.classList.add('dpb-dpz-onDragOver');
-		});
-		this.dpbDropDirective.dragLeave$.subscribe(e => {
-			this._ele.classList.remove('dpb-dpz-onDragOver');
-		});
+			this.dpbDropDirective.dragOver$.subscribe(e => {
+				this._ele.classList.add('dpb-dpz-onDragOver');
+			});
+			this.dpbDropDirective.dragLeave$.subscribe(e => {
+				this._ele.classList.remove('dpb-dpz-onDragOver');
+			});
 
-		this.dpbDropDirective.drop$.subscribe((files: Array<DpbFile>) => {
-			this.onAddFiles$.next(files);
-			this.onChange$.next(files);
-			this.addFiles(files);
-			this._ele.classList.remove('dpb-dpz-onDragOver');
+			this.dpbDropDirective.drop$.subscribe((files: Array<DpbFile>) => {
+				this.onAddFiles$.next(files);
+				this.onChange$.next(files);
+				this.addFiles(files);
+				this._ele.classList.remove('dpb-dpz-onDragOver');
+			});
 		});
 	}
 

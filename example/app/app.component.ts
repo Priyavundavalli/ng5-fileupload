@@ -71,17 +71,19 @@ export class AppComponent implements OnInit {
 		});
 
 		try {
-			this._upProg = this.filSer
-				.uploadFile(
-					'https://hookb.in/ZB77kXQ2',
-					this._fileUp.getFiles()
-				)
-				.subscribe((response: DpbResponse) => {
-					if (response.type === HttpEventType.UploadProgress) {
-					} else if (response.type === HttpEventType.Response) {
-						console.log('E acabou!');
-					}
-				});
+			this.filSer.setFiles(this._fileUp.getFiles());
+			if ( this.filSer.isValid() ) {
+				this._upProg = this.filSer
+					.uploadFile(
+						'https://hookb.in/ZB77kXQ2'
+					)
+					.subscribe((response: DpbResponse) => {
+						if (response.type === HttpEventType.UploadProgress) {
+						} else if (response.type === HttpEventType.Response) {
+							console.log('E acabou!');
+						}
+					});
+			}
 		} catch (e) {
 			console.error('Não foi possível enviar o arquivo');
 			// console.error(e);
