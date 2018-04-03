@@ -16,6 +16,20 @@ import { Subject } from 'rxjs/Subject';
 import { DpbFilesValidation, DpbIndividualFileValidation } from '../interfaces/dpbFileValidation.interface';
 import { DpbFileUploadOptions } from '../interfaces/fileUploadOptions.interface';
 
+/**
+ * @author Marcelo Rafael <marcelo.rafael.feil@gmail.com>
+ * @description Service to control file upload rule and functionalities.
+ * 				With this service, is possible to change file extensions rules, general files size and
+ * 				individual file size. You can observe if have any error or if any validation exception is
+ * 				fired.
+ * ** VALIDATION TAGS **
+ * * LIMIT_EXCEEDED: when the quantity of files, exceed the specified number
+ * * LIMIT_SIZE_EXCEEDED: when size of all files, exceed the size allowed
+ * * FILES_NOT_FOUND: when there are not files in the queue.
+ * * FILE_LIMIT_SIZE_EXCEEDED: when a specific file, exceed the allowed size.
+ * * FILE_INVALID_EXTENSION: when a specifc file, has a invalid extension.
+ */
+
 @Injectable()
 export class FileUploadService {
 
@@ -35,6 +49,8 @@ export class FileUploadService {
 	private _inProgress: boolean;
 
 	private _files: Array<File>;
+	private _validations: DpbFilesValidation;
+	private _individualValidations: DpbIndividualFileValidation;
 
 	constructor(private _http: HttpClient) {
 		this._rules = {
@@ -119,7 +135,7 @@ export class FileUploadService {
 				const splName: string[] = f.name.split('.');
 				const ext: string = splName[splName.length - 1].toLowerCase();
 
-				if ( (f.size / 1024) > this._rules.maxSizePerFile ) {
+				if ( f.size > this._rules.maxSizePerFile ) {
 					tags.push('FILE_LIMIT_SIZE_EXCEEDED');
 				}
 				if ( this._rules.extensions.indexOf(ext) < 0 ) {
@@ -133,7 +149,6 @@ export class FileUploadService {
 					});
 				}
 			});
-			size = size / 1024;
 
 			if ( size > this._rules.maxSize ) {
 				validation.tags.push('LIMIT_SIZE_EXCEEDED');
@@ -147,6 +162,8 @@ export class FileUploadService {
 
 			this.onValidate$.next({validation, individualValidation});
 		}
+		this._validations = validation;
+		this._individualValidations = individualValidation;
 
 		return isValid;
 	}
@@ -217,19 +234,99 @@ export class FileUploadService {
 		this._inProgress = true;
 	}
 
+	/**
+	 * @description if the number files selected for user, exceed the number configured here,
+	 * a validaiton exception is fired and the request is canceled.
+	 * @param max number with max files allowed
+	 */
 	public setMaxFiles(max: number) {
 		this._rules.maxQuantity = max;
 	}
 
+	/**
+	 * @description if the size of all files exceed the number especified here, the application
+	 * fire an exception validate error and request is canceled.
+	 * @param max number with general max size (KBytes) allowed.
+	 */
 	public setMaxSize(max: number) {
 		this._rules.maxSize = max;
 	}
 
+	/**
+	 * @description if the size of file, exceed the number especified here, the application
+	 * fire an exception validate error and request is canceled.
+	 * @param max number with individual max file size (KBytes) allowed.
+	 */
 	public setMaxSizePerFile(max: number) {
 		this._rules.maxSizePerFile = max;
 	}
 
+	/**
+	 * @description if the file extension there's not in array specified here, a
+	 * validate exception is fired and the request is canceled.
+	 * @param exts array with extensions (without point). Is not necessary pass
+	 * extension in lower and uppercase, just lowercase.
+	 */
 	public setExtensions(exts: string[]) {
 		this._rules.extensions = exts;
+	}
+
+	/**
+	 * @returns an array of strings with allowed extensions.
+	 */
+	public getExtensions(): string[] {
+		return this._rules.extensions;
+	}
+
+	/**
+	 * @description method to returns the validation rules.
+	 * @example
+	 * // verify if there's any error in all or individual files. Returns true or false.
+	 * validations().hasErrros();
+	 * @example
+	 * // verify if there's any error. This sub-method, returns true or false.
+	 * validations().hasGeneralErrors();
+	 * @example
+	 * // verify if there's a specific error. This sub-method, returns true or false.
+	 * validations().getError('NOT_FOUND');
+	 * @example
+	 * // verify if there are errors in especific files. Returns true or false.
+	 * validations().hasIndividualErrors();
+	 * @example
+	 * // verify if there's a specific error in specifc file. Returns true or false.
+	 * validations().get(0).getError('FILE_INVALID_EXTENSION');
+	 * @example
+	 * // returns an array with individual validation exceptions
+	 * validations().getIndividualValidations();
+	 */
+	public validations() {
+		return {
+			hasErrors: () => {
+				const individualErrors: boolean = (this._individualValidations !== undefined && this._individualValidations.info.length > 0);
+				const generalErrors: boolean = (this._validations !== undefined && this._validations.tags.length > 0);
+				return ( individualErrors || generalErrors );
+			},
+			hasGeneralErrors: () => {
+				return ( this._validations !== undefined && this._validations.tags.length > 0 );
+			},
+			getError: (key) => {
+				return ( this._validations !== undefined && this._validations.tags.indexOf(key) >= 0 );
+			},
+			hasIndividualErrors: () => {
+				return ( this._individualValidations !== undefined && this._individualValidations.info.length > 0 );
+			},
+			get: (key) => {
+				if ( this._individualValidations.info[key] !== undefined ) {
+					return {
+						getError: (tag) => {
+							return ( this._individualValidations.info[key].tags !== undefined && this._individualValidations.info[key].tags.indexOf(tag) >= 0 );
+						}
+					};
+				}
+			},
+			getIndividualValidations: () => {
+				return this._individualValidations.info;
+			}
+		};
 	}
 }

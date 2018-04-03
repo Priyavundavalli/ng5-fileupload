@@ -13,6 +13,7 @@ import { Subject } from 'rxjs/Subject';
 import { DpbFile } from '../interfaces/dpbFile.interface';
 import { DpbChangeZoneDirective } from '../directives/changeZone.directive';
 import { DpbFileUploadOptions } from '../interfaces/fileUploadOptions.interface';
+import { FileUploadService } from '../services/fileupload.service';
 
 @Component({
 	selector: 'fileUpload',
@@ -36,7 +37,10 @@ export class FileUploadComponent implements OnInit, AfterViewInit {
 
 	private _options: DpbFileUploadOptions;
 
-	constructor(_ref: ElementRef) {
+	constructor(
+		_ref: ElementRef,
+		private _filSer: FileUploadService
+	) {
 		this.disabled = false;
 		this._ele_fileUpload = _ref.nativeElement;
 		this._options = {
@@ -140,5 +144,17 @@ export class FileUploadComponent implements OnInit, AfterViewInit {
 
 	public getOptions(): DpbFileUploadOptions {
 		return this._options;
+	}
+
+	public getAcceptableExtensions(): string {
+		let extensions = '';
+		this._filSer.getExtensions().forEach((e, index) => {
+			extensions += '.' + e;
+			if ( index < this._filSer.getExtensions().length - 1 ) {
+				extensions += ',';
+			}
+		});
+
+		return extensions;
 	}
 }

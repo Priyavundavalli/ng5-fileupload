@@ -21,8 +21,11 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 export class AppComponent implements OnInit {
 	@ViewChild(FileUploadComponent) private _fileUp: FileUploadComponent;
 	private _upProg: Subscription;
+	private _hasValidationException: boolean;
 
-	constructor(private _filSer: FileUploadService) {}
+	constructor(public filSer: FileUploadService) {
+		this._hasValidationException = false;
+	}
 
 	ngOnInit() {
 		this._fileUp.setOptions({
@@ -37,30 +40,38 @@ export class AppComponent implements OnInit {
 			}
 		});
 
-		this._filSer.onValidate$.subscribe(validation => {
+		this.filSer.onValidate$.subscribe(validation => {
 			console.log(validation.validation.tags);
 			console.log(validation.individualValidation.info);
+
+			const individualIsNotUndefined = validation.individualValidation.info !== undefined;
+			const hasIndividualValidation = individualIsNotUndefined && validation.individualValidation.info.length > 0;
+			const validationIsNotUndefined = validation.validation.tags !== undefined;
+			const hasValidation = validationIsNotUndefined && validation.validation.tags.length > 0;
+
+			if ( hasIndividualValidation || hasValidation ) {
+				this._hasValidationException = true;
+			}
 		});
-		this._filSer.setMaxSize(3000027);
-		this._filSer.setMaxSizePerFile(3000027);
-		this._filSer.setExtensions(['exe']);
+		this.filSer.setMaxSize(3000027);
+		this.filSer.setMaxSizePerFile(3000027);
 	}
 
 	public sendFiles() {
-		this._filSer.onComplete$.subscribe(e => {
+		this.filSer.onComplete$.subscribe(e => {
 			console.log('COMPLETO!');
 		});
 
-		this._filSer.onProgress$.subscribe(e => {
+		this.filSer.onProgress$.subscribe(e => {
 			console.log(e.percent + '%');
 		});
 
-		this._filSer.onError$.subscribe(() => {
+		this.filSer.onError$.subscribe(() => {
 			console.error('ERROUR!');
 		});
 
 		try {
-			this._upProg = this._filSer
+			this._upProg = this.filSer
 				.uploadFile(
 					'https://hookb.in/ZB77kXQ2',
 					this._fileUp.getFiles()
@@ -73,11 +84,15 @@ export class AppComponent implements OnInit {
 				});
 		} catch (e) {
 			console.error('Não foi possível enviar o arquivo');
-			console.error(e);
+			// console.error(e);
 		}
 	}
 
 	public abort() {
 		this._upProg.unsubscribe();
+	}
+
+	public hasValidation(): boolean {
+		return this._hasValidationException;
 	}
 }

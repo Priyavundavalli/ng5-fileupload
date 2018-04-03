@@ -6,3 +6,19 @@
 	<button (click)="abort()">Abortar</button>
 
 </div>
+
+{{filSer.validations().hasErrors()|json}} <br />
+
+<ul *ngIf="filSer.validations().hasErrors()">
+	<li *ngIf="filSer.validations().getError('LIMIT_EXCEEDED')">Limite de arquivos excedido.</li>
+	<li *ngIf="filSer.validations().getError('LIMIT_SIZE_EXCEEDED')">Tamanho excedido.</li>
+	<li *ngIf="filSer.validations().getError('FILES_NOT_FOUND')">Não foi encontrado arquivos.</li>
+	<ng-container *ngFor="let item of filSer.validations().getIndividualValidations(); let i = index;">
+		<li *ngIf="filSer.validations().get(i).getError('FILE_LIMIT_SIZE_EXCEEDED')">
+			O tamanho do arquivo {{item.name}}, excede o limite permitido por arquivo.
+		</li>
+		<li *ngIf="filSer.validations().get(i).getError('FILE_INVALID_EXTENSION')">
+			A extensão do arquivo {{item.name}}, não é permitida.
+		</li>
+	</ng-container>
+</ul>

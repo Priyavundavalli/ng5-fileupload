@@ -33,7 +33,7 @@
 		</div>
 	</div>
 	<!-- End: Content Files -->
-	<input type="file" multiple class="dpb-fileupload-input" dpbChangeZone title="{{getOptions().texts.inputFileTitle}}" />
+	<input type="file" multiple class="dpb-fileupload-input" dpbChangeZone [attr.accept]="getAcceptableExtensions()" title="{{getOptions().texts.inputFileTitle}}" />
 </div>
 <div class="dpb-fileupload-actions {{getOptions().classes.actionContent}}">
 	<button type="button" class="dpb-action-add {{getOptions().classes.buttonAdd}}">
