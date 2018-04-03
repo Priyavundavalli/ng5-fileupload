@@ -6,7 +6,7 @@
     "email": "contact@developer.pro.br",
     "url": "https://www.linkedin.com/in/marcelorafaelfeil/"
   },
-  "version": "1.2.3",
+  "version": "1.2.4",
   "license": "MIT",
   "main": "src/index.ts",
   "scripts": {

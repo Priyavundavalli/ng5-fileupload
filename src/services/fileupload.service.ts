@@ -244,7 +244,6 @@ export class FileUploadService {
 	 * @description method that fire a complete event when the request is done.
 	 */
 	public showComplete(res?: DpbResponse) {
-		console.log('progress done!');
 		this._inProgress = false;
 		this.onComplete$.next(res);
 	}
