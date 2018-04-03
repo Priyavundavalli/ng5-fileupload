@@ -6,7 +6,7 @@
     "email": "marcelo.rafael.feil@gmail.com",
     "url": "https://www.linkedin.com/in/marcelorafaelfeil/"
   },
-  "version": "1.2.0",
+  "version": "1.2.1",
   "license": "MIT",
   "main": "src/index.ts",
   "scripts": {

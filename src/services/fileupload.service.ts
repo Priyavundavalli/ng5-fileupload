@@ -110,7 +110,11 @@ export class FileUploadService {
 			);
 	}
 
-	private isValid(): boolean {
+	/**
+	 * @description verify if files are valid.
+	 * @returns boolean
+	 */
+	public isValid(): boolean {
 		let isValid = true;
 		const validation: DpbFilesValidation = {
 			operation: 'onSend',
