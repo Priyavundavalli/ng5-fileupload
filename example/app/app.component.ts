@@ -25,6 +25,18 @@ export class AppComponent implements OnInit {
 
 	constructor(public filSer: FileUploadService) {
 		this._hasValidationException = false;
+
+		this.filSer.onComplete$.subscribe(e => {
+			console.log('COMPLETO!');
+		});
+
+		this.filSer.onProgress$.subscribe(e => {
+			console.log(e.percent + '%');
+		});
+
+		this.filSer.onError$.subscribe(() => {
+			console.error('ERROUR!');
+		});
 	}
 
 	ngOnInit() {
@@ -55,35 +67,25 @@ export class AppComponent implements OnInit {
 	}
 
 	public sendFiles() {
-		this.filSer.onComplete$.subscribe(e => {
-			console.log('COMPLETO!');
-		});
-
-		this.filSer.onProgress$.subscribe(e => {
-			console.log(e.percent + '%');
-		});
-
-		this.filSer.onError$.subscribe(() => {
-			console.error('ERROUR!');
-		});
-
 		try {
 			this.filSer.setFiles(this._fileUp.getFiles());
 			if ( this.filSer.isValid() ) {
+
 				this._upProg = this.filSer
 					.uploadFile(
-						'https://hookb.in/ZB77kXQ2'
+						'http://www.mocky.io/v2/5ab3e7902f00006000ca3a05'
 					)
 					.subscribe((response: DpbResponse) => {
 						if (response.type === HttpEventType.UploadProgress) {
 						} else if (response.type === HttpEventType.Response) {
-							console.log('E acabou!');
+							console.log('E acabou!!!!');
+							this._upProg.unsubscribe();
 						}
 					});
 			}
 		} catch (e) {
 			console.error('Não foi possível enviar o arquivo');
-			// console.error(e);
+			console.error(e);
 		}
 	}
 

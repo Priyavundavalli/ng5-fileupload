@@ -33,7 +33,7 @@ import { DpbFileUploadOptions } from '../interfaces/fileUploadOptions.interface'
 @Injectable()
 export class FileUploadService {
 
-	public onComplete$: Subject<void> = new Subject();
+	public onComplete$: Subject<DpbResponse> = new Subject<DpbResponse>();
 	public onProgress$: Subject<DpbResponse> = new Subject<DpbResponse>();
 	public onError$: Subject<any> = new Subject();
 	public onInit$: Subject<DpbResponse> = new Subject<DpbResponse>();
@@ -207,11 +207,14 @@ export class FileUploadService {
 			this.onInit$.next(res);
 			return res;
 		} else if ( event.type === HttpEventType.Response ) {
-			return {
+			const res: DpbResponse = {
 				type: HttpEventType.Response,
 				percent: null,
 				complete: true
 			} as DpbResponse;
+
+			this.showComplete(res);
+			return res;
 		} else {
 			return {
 				type: event.type,
@@ -240,9 +243,10 @@ export class FileUploadService {
 	/**
 	 * @description method that fire a complete event when the request is done.
 	 */
-	public showComplete() {
-		this.onComplete$.next();
-		this._inProgress = true;
+	public showComplete(res?: DpbResponse) {
+		console.log('progress done!');
+		this._inProgress = false;
+		this.onComplete$.next(res);
 	}
 
 	/**
