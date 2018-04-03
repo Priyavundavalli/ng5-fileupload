@@ -41,9 +41,6 @@ export class AppComponent implements OnInit {
 		});
 
 		this.filSer.onValidate$.subscribe(validation => {
-			console.log(validation.validation.tags);
-			console.log(validation.individualValidation.info);
-
 			const individualIsNotUndefined = validation.individualValidation.info !== undefined;
 			const hasIndividualValidation = individualIsNotUndefined && validation.individualValidation.info.length > 0;
 			const validationIsNotUndefined = validation.validation.tags !== undefined;
@@ -53,8 +50,8 @@ export class AppComponent implements OnInit {
 				this._hasValidationException = true;
 			}
 		});
-		this.filSer.setMaxSize(3000027);
-		this.filSer.setMaxSizePerFile(3000027);
+		this.filSer.setMaxSize(3072);
+		this.filSer.setMaxSizePerFile(3072);
 	}
 
 	public sendFiles() {

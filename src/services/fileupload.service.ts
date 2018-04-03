@@ -146,7 +146,7 @@ export class FileUploadService {
 				const splName: string[] = f.name.split('.');
 				const ext: string = splName[splName.length - 1].toLowerCase();
 
-				if ( f.size > this._rules.maxSizePerFile ) {
+				if ( (f.size / 1024) > this._rules.maxSizePerFile ) {
 					tags.push('FILE_LIMIT_SIZE_EXCEEDED');
 				}
 				if ( this._rules.extensions.indexOf(ext) < 0 ) {
@@ -161,7 +161,7 @@ export class FileUploadService {
 				}
 			});
 
-			if ( size > this._rules.maxSize ) {
+			if ( (size / 1024) > this._rules.maxSize ) {
 				validation.tags.push('LIMIT_SIZE_EXCEEDED');
 			}
 		} else {
