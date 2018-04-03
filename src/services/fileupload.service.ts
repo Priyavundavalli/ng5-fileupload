@@ -299,7 +299,7 @@ export class FileUploadService {
 	 * // returns an array with individual validation exceptions
 	 * validations().getIndividualValidations();
 	 */
-	public validations() {
+	public validations(): Object {
 		return {
 			hasErrors: () => {
 				const individualErrors: boolean = (this._individualValidations !== undefined && this._individualValidations.info.length > 0);
