@@ -192,7 +192,8 @@ export class FileUploadService {
 			const res: DpbResponse = {
 				type: HttpEventType.UploadProgress,
 				percent: percentDone,
-				complete: false
+				complete: false,
+				response: event
 			} as DpbResponse;
 
 			this.onProgress$.next(res);
@@ -201,16 +202,17 @@ export class FileUploadService {
 			const res: DpbResponse = {
 				type: HttpEventType.Sent,
 				percent: null,
-				complete: false
+				complete: false,
+				response: event
 			} as DpbResponse;
-
 			this.onInit$.next(res);
 			return res;
 		} else if ( event.type === HttpEventType.Response ) {
 			const res: DpbResponse = {
 				type: HttpEventType.Response,
 				percent: null,
-				complete: true
+				complete: true,
+				response: event
 			} as DpbResponse;
 
 			this.showComplete(res);
@@ -219,7 +221,8 @@ export class FileUploadService {
 			return {
 				type: event.type,
 				percent: null,
-				complete: null
+				complete: null,
+				response: event
 			} as DpbResponse;
 		}
 	}

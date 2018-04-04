@@ -79,6 +79,7 @@ export class AppComponent implements OnInit {
 						if (response.type === HttpEventType.UploadProgress) {
 						} else if (response.type === HttpEventType.Response) {
 							console.log('E acabou!!!!');
+							console.log(response);
 							this._upProg.unsubscribe();
 						}
 					});
