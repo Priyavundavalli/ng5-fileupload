@@ -1,7 +1,7 @@
 # Getting started
 Install ng5-fileupload via:
 
-`npm install --save ng5-file-upload`
+`npm install --save ng5-fileupload`
 
 Once installed, you need to import our main module:
 
