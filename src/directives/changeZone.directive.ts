@@ -20,7 +20,12 @@ export class DpbChangeZoneDirective implements OnInit {
 	ngOnInit() {
 		this._ele.addEventListener('change', (e) => {
 			this.changedFiles$.next(DpbFilesCore.parse(this._ele.files));
+			this._ele.value = '';
 		});
+	}
+
+	getElement() {
+		return this._ele;
 	}
 
 }
